@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <title>DMSBOT</title>
+        <meta property="og:title" content="DMS BLOG">
+        <meta property="og:description" content="公式ブログです。">
+        <meta property="og:site_name" content="DMS BLOG">
+        <meta property="og:url" content="https://dmsblog.cf">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <h1 class="text-blue-600 text-6xl text-center"><a href="/">DMS公式</a></h1>
+        <nav class="flex bg-sky-600">
+            <a href="/contact.html" class="text-2xl flex-none m-2 border-2 border-green-400 rounded bg-emerald-200">コンタクト</a>
+            <a href="/blog.html" class="text-2xl flex-none m-2 border-2 border-green-400 rounded bg-emerald-200">ブログ</a>
+        </nav>
+        <main class="flex">
+            <div class="w-9/12">
+                {% block content %}{% endblock %}
+            </div>
+            <div id="side_bar" class="w-3/12 border-2 border-black rounded">
+                <h2 class="text-3xl text-center">ブログ一覧</h2>
+                <ul id="blog_list"></ul>
+            </div>
+        </main>
+        <script>
+            $.ajax("/api/blog").done(function (data) {
+                for (let d in data){
+                    const content = data[d];
+                    $("#blog_list").after(
+                        `<li><a href="/blog.html?id=${content["id"]}">${content["title"]}</a></li>`
+                    );
+                };
+            });
+        </script>
+    </body>
+</html>
